@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .title {
+        margin: 0 auto;
+        border-radius: 4px;
+        width: 150px;
+        text-align: center;
+        background-color: rgba(217, 243, 253, 0.8);
+        color: #046a8f;
+    }
+    .iframe-center {
+        position: absolute;  height: 100%; top: 0;
+    }
+</style>
+
+<body>
+    <!-- title -->
+    <div id="titlediv" style="display: flex;position: absolute; width: 100%; 
+     height: 30px;top: 0; left: 0;z-index: 999;padding-top: 15px; ">
+    </div>
+
+    <!-- iframe -->
+    <div style="display: flex;position: relative; width: 100%; 
+    padding-top: calc(100vh - 20px); 
+    border: 1px azure solid;" id="iframediv">   
+    </div>
+
+</body>
+
+<script>
+  
+
+    var search =  window.location.search;
+    var data;
+   if(search.indexOf("?")== -1 && search.indexOf("=")== -1 ){
+     data = [
+        {
+       "title":"US-East",
+       "url":"https://cloud-i18n.bytedance.net/tcc/namespace/data.tiktok.commons?by_key=false&condition=name&configId=1414238921660032&dir_path=%2Fdefault&env=prod&filter_no_tag=false&keyword=&order=&pn=1&region=US-East&rn=20&scope=all"
+    },
+    {
+       "title":"US-EastRed",
+       "url":"https://cloud-i18n.bytedance.net/tcc/namespace/data.tiktok.commons?by_key=false&condition=name&configId=1414239975306592&dir_path=%2Fdefault&env=prod&filter_no_tag=false&keyword=&order=&pn=1&region=US-EastRed&rn=20&scope=all"
+    },
+    {
+       "title":"US-TTP",
+       "url":"https://cloud-ttp-us.bytedance.net/tcc/namespace/data.tiktok.commons?by_key=false&condition=name&configId=1977191803519456&dir_path=%2Fdefault&env=prod&filter_no_tag=false&keyword=&order=&pn=1&region=US-TTP&rn=20&scope=all"
+    },
+   
+   ]
+   console.log("http://127.0.0.1:5500/split.html?list="+  encodeURIComponent(JSON.stringify(data)))
+   } else{
+     data = JSON.parse(decodeURIComponent(search.split("=")[1]))
+   }
+    
+   
+ 
+
+   var wid = (100/data.length);
+   var left = 0;
+
+   data.forEach(item=>{
+    var title  = item.title;
+       var url = item.url;
+       var titlehtml = '<div style=" width: '+wid+'%; "><div class="title">'+title+'</div></div>';
+       var iframehtml = '<iframe style="width: '+wid+'%; left: '+left +'%;" class="iframe-center"   src="'+url+'"></iframe>';   
+       document.getElementById("titlediv").innerHTML+=titlehtml;
+       document.getElementById("iframediv").innerHTML+=iframehtml;
+       left+=wid;
+   })
+   
+   
+
+   </script>
+</html>
